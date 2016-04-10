@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="passwordLengthRule" class="com.sama.validator.rule.impl.LengthRule">
+        <constructor-arg name ="min" value="5"/>
+        <constructor-arg name ="max" value="12"/>
+    </bean>
+
+    <bean id="characterTypeRule" class="com.sama.validator.rule.impl.CharacterTypeRule">
+        <constructor-arg name ="isWhitelist" value="true"/>
+        <constructor-arg name ="list">
+            <set>
+                <value type="com.sama.validator.rule.impl.CharacterTypeRule$CharacterType">LOWER</value>
+                <value type="com.sama.validator.rule.impl.CharacterTypeRule$CharacterType">NUMERIC</value>
+            </set>
+        </constructor-arg>
+        <constructor-arg name ="mandatory">
+            <set>
+                <value type="com.sama.validator.rule.impl.CharacterTypeRule$CharacterType">LOWER</value>
+                <value type="com.sama.validator.rule.impl.CharacterTypeRule$CharacterType">NUMERIC</value>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="passwordValidator" class="com.sama.validator.service.ValidatorService">
+        <property name="rules">
+            <list>
+                <ref bean="characterTypeRule" />
+                <bean class="com.sama.validator.rule.impl.NoSequenceRepetitionRule"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>
