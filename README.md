@@ -9,6 +9,7 @@ The rules currently known are:
 
 Instructions:
 1) Checkout project from github
+
 2) Go to validator-api folder and run mvn clean install 
 
 Integration Instructions:
@@ -16,20 +17,28 @@ Integration Instructions:
     <groupId>com.sama</groupId>
     <artifactId>validator-api</artifactId>
     <version>1.0-SNAPSHOT</version>
+    
 2) add this import statement in spring context file <import resource="classpath:validator-api-context.xml"/> or add ContextConfiguration annotation
+
 3)Add following code in the classes where you want to access Validation Service
 @Autowired
 @Qualifier(value = "passwordValidator")
 Validator<String> passwordValidator;
+
 4)call validate method on the service passwordValidator.validate(password)
+
 5) Check ValidationResult for success or failure. See ValidationResult.java format
 
 Things that could be different:
+
 Current approach applies all the rules and give the result for each of them. We could stop whenever we see a failure
 
 Design Choices:
+
 Implemented a very generic validation framework which could be applied to other usecases than password validation
+
 Made current rules configurable through spring for different values
+
 Implemented a generic regex rule which could be aplied to multiple rules
 
     
